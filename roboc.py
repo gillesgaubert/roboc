@@ -18,9 +18,17 @@ for nom_fichier in os.listdir("cartes"):
         nom_carte = nom_fichier[:-3].lower()
         with open(chemin, "r") as fichier:
             contenu = fichier.read()
+            print(nom_carte)
+            print(contenu)
             # Création d'une carte, à compléter
-            carte=new Carte(nom_carte,contenu)
-        cartes.append(carte)
+            carte=Carte(nom_carte,contenu)
+            #print(carte)
+            print(carte.nom)
+            print(carte.labyrinthe)
+        
+        #cartes.append(carte)
+
+
 
 
 
