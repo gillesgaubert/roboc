@@ -8,8 +8,10 @@ class Labyrinthe:
 
     def __init__(self,chaine):
         """ on definit ici grille et robot les attreibut de la classe """
+        
         self.grille={}
         self.robot={}
+        self.surPorte=False
         
         index=0
         numLigne=0
@@ -66,7 +68,7 @@ class Labyrinthe:
     def deplacementRobot(self,commandeDeplacement):
         lDepl=0
         cDepl=0
-        print("Dans la fct de deplacement")
+        #print("Dans la fct de deplacement")
         # ici je prends le premier caractere comme direction
         dirDeplacement=commandeDeplacement
         if dirDeplacement.lower()=='n' :
@@ -79,9 +81,26 @@ class Labyrinthe:
             cDepl-=1
         else :
             print("t'est un couillon")
-        # maintenant on deplace le robot sans controle pour commancer
-        self.grille[(self.robot['x'],self.robot['y'])]=' '
-        self.robot['x']+=cDepl
-        self.robot['y']+=lDepl
-        self.grille[(self.robot['x'],self.robot['y'])]='X'
+        # maintenant on deplace le robot apres avoir verifie si cela est possible
+        
+        if self.grille[(self.robot['x']+cDepl,self.robot['y']+lDepl)]=='O' :
+            print("Deplacement impossible car le robot n'est pas un passe-muraille !")
+        else :
+            # test si on se trouve dans l ecadrement d une porte
+            if not self.surPorte :
+                elementDeDecor=' '
+            else :
+                elementDeDecor='.'
 
+            self.grille[(self.robot['x'],self.robot['y'])]=elementDeDecor
+            
+            # teste si la desination est une porte pour s en ouvenir
+            if self.grille[(self.robot['x']+cDepl,self.robot['y']+lDepl)]=='.' :
+                self.surPorte=True
+            else :
+                self.surPorte=False
+
+            self.robot['x']+=cDepl
+            self.robot['y']+=lDepl
+            self.grille[(self.robot['x'],self.robot['y'])]='X'
+            

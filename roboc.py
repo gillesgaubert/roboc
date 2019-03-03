@@ -29,15 +29,24 @@ for nom_fichier in os.listdir("cartes"):
         cartes.append(carte)
 
 print("sur la carte facile : 1")
-print("Maintenant je veux deplacer le robot vers le sud")
+
 direction='s'
 cacarte=cartes[1]
 print(cacarte)
-lab=cacarte.labyrinthe
-lab.deplacementRobot(direction)
+
+print("Maintenant je veux deplacer le robot vers le sud")
+cacarte.labyrinthe.deplacementRobot(direction)
 print(cacarte)
 
+print("Maintenant je veux deplacer le robot vers l'ouest ce qui est pas possible")
+direction='o'
+cacarte.labyrinthe.deplacementRobot(direction)
+print(cacarte)
 
+print("Maintenant encore vers le sud")
+direction='s'
+cacarte.labyrinthe.deplacementRobot(direction)
+print(cacarte)
 
 
 """
