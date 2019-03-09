@@ -18,13 +18,8 @@ for nom_fichier in os.listdir("cartes"):
         nom_carte = nom_fichier[:-4].lower()
         with open(chemin, "r") as fichier:
             contenu = fichier.read()
-            #print(nom_carte)
-            #print(contenu)
-            # Création d'une carte, à compléter
+            # Création d'une carte
             carte=Carte(nom_carte,contenu)
-            #print(carte)
-            #print(carte.nom)
-            #print(carte.labyrinthe)
         
         cartes.append(carte)
 
@@ -48,6 +43,14 @@ direction='s'
 cacarte.labyrinthe.deplacementRobot(direction)
 print(cacarte)
 
+print("Maintenant je veux gagner donc est...")
+direction='e'
+victoire=cacarte.labyrinthe.deplacementRobot(direction)
+print(cacarte)
+if victoire :
+    print("Tu est sorti vivant de ce labyrinthe... Bravo !")
+else :
+    print("T'est pas encore sorti, continue...")
 
 """
 # On affiche les cartes existantes
