@@ -61,6 +61,29 @@ class Labyrinthe:
         return sortie
 
     
+    def interpreteurCommande(self,commande):
+        victoire=False
+        if commande.length==0:
+            print("Il faut rentrer une commande !")
+        elif (commande.lower()=='w') :
+            # ici sauvegearde et fin du programme
+        else :
+            if (commande.length>1) :
+                # ici une mini-gestion des erreurs :
+                # commande doit etre au format "o 3" pour 3* ouest
+                if ((commande[1]==' ') && (commande[2] in '123456789')) :
+                    direction=commande[0]
+                    nombreDeplacement=int(commande[2])
+                else :
+                    print("Je ne comprends pas cette commande !")
+            else :
+                direction=commande
+
+            # finalement on peut deplacer le robot
+            victoire=self.deplacementRobot(direction)
+        return victoire
+
+
     def deplacementRobot(self,dirDeplacement):
         lDepl=0
         cDepl=0

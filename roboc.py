@@ -24,33 +24,23 @@ for nom_fichier in os.listdir("cartes"):
         cartes.append(carte)
 
 print("sur la carte facile : 1")
-
-direction='s'
 cacarte=cartes[1]
-print(cacarte)
+fini=False
 
-print("Maintenant je veux deplacer le robot vers le sud")
-cacarte.labyrinthe.deplacementRobot(direction)
-print(cacarte)
+while (not fini):
+    print("Donnez la direction :")
+    read(direction)
+    fini=cacarte.labyrinthe.interpreteurCommande(direction)
+    print(cacarte)
 
-print("Maintenant je veux deplacer le robot vers l'ouest ce qui est pas possible")
-direction='o'
-cacarte.labyrinthe.deplacementRobot(direction)
-print(cacarte)
+    if fini :
+        print("Tu est sorti vivant de ce labyrinthe... Bravo !")
+    else :
+        print("T'est pas encore sorti, continue...")
 
-print("Maintenant encore vers le sud")
-direction='s'
-cacarte.labyrinthe.deplacementRobot(direction)
-print(cacarte)
 
-print("Maintenant je veux gagner donc est...")
-direction='e'
-victoire=cacarte.labyrinthe.deplacementRobot(direction)
-print(cacarte)
-if victoire :
-    print("Tu est sorti vivant de ce labyrinthe... Bravo !")
-else :
-    print("T'est pas encore sorti, continue...")
+
+
 
 """
 # On affiche les cartes existantes
