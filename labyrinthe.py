@@ -63,15 +63,16 @@ class Labyrinthe:
     
     def interpreteurCommande(self,commande):
         victoire=False
-        if commande.length==0:
+        if len(commande)==0:
             print("Il faut rentrer une commande !")
         elif (commande.lower()=='w') :
             # ici sauvegearde et fin du programme
+            print("Sauvegarde de la partie courante")
         else :
-            if (commande.length>1) :
+            if (len(commande)>1) :
                 # ici une mini-gestion des erreurs :
                 # commande doit etre au format "o 3" pour 3* ouest
-                if ((commande[1]==' ') && (commande[2] in '123456789')) :
+                if ((commande[1]==' ') and (commande[2] in '123456789')) :
                     direction=commande[0]
                     nombreDeplacement=int(commande[2])
                 else :

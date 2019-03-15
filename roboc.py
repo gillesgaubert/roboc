@@ -29,7 +29,7 @@ fini=False
 
 while (not fini):
     print("Donnez la direction :")
-    read(direction)
+    direction=input()
     fini=cacarte.labyrinthe.interpreteurCommande(direction)
     print(cacarte)
 
