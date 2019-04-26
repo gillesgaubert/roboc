@@ -17,6 +17,8 @@ class Labyrinthe:
         numLigne=0
         numColonne=0
         
+        # on utilise la chaine passee dans le constructeur pour
+        # affecter les attributs
         for i in range(len(chaine)):
             car=chaine[i]
             if car=="\n" :
@@ -33,10 +35,10 @@ class Labyrinthe:
                 numColonne+=1
 
 
-
-    """ grille={(colonne,ligne):"elementDeDecor",...}
-        robot={'x':valColonne,'y':valLigne}
-    """
+    # dans les attributs on a donc:            
+    # grille={(colonne,ligne):"elementDeDecor",...} represente la grille
+    # robot={'x':valColonne,'y':valLigne} represente la position du robot
+    
 
     def __repr__(self):
         sortie=""
@@ -62,30 +64,34 @@ class Labyrinthe:
 
     
     def interpreteurCommande(self,commande):
-        victoire=False
+        nombreDeplacement=1
+        resultat="EnCours"
         if len(commande)==0:
             print("Il faut rentrer une commande !")
-        elif (commande.lower()=='w') :
+        elif (commande.lower()=='q') :
             # ici sauvegearde et fin du programme
-            print("Sauvegarde de la partie courante")
+            resultat="Sauvegarde"
         else :
             if (len(commande)>1) :
                 # ici une mini-gestion des erreurs :
-                # commande doit etre au format "o 3" pour 3* ouest
-                if ((commande[1]==' ') and (commande[2] in '123456789')) :
+                # commande doit etre au format "o3" pour 3* ouest
+                if ((len(commande)==2) and (commande[1] in '123456789')) :
                     direction=commande[0]
-                    nombreDeplacement=int(commande[2])
+                    nombreDeplacement=int(commande[1])
                 else :
                     print("Je ne comprends pas cette commande !")
             else :
                 direction=commande
 
             # finalement on peut deplacer le robot
-            victoire=self.deplacementRobot(direction)
-        return victoire
+
+            resultat=self.deplacementRobot(direction,nombreDeplacement)
+            # resultat qui est renvoye peut etre
+            # Gagne, EnCours ou Sauvegarde
+        return resultat
 
 
-    def deplacementRobot(self,dirDeplacement):
+    def deplacementRobot(self,dirDeplacement,nbDepl):
         lDepl=0
         cDepl=0
         
@@ -100,32 +106,33 @@ class Labyrinthe:
         else :
             print("direction non reconnue !")
         
-        # maintenant on deplace le robot apres avoir verifie si cela est possible
+        for i in range(nbDepl):
+            # maintenant on deplace le robot apres avoir verifie si cela est possible
         
-        if self.grille[(self.robot['x']+cDepl,self.robot['y']+lDepl)]=='O' :
-            print("Deplacement impossible car le robot n'est pas un passe-muraille !")
-        else :
-            # teste si on se trouve dans l ecadrement d une porte
-            # si c est le cas il faut remettre un . apres le depart du robot
-            if not self.surPorte :
-                elementDeDecor=' '
+            if self.grille[(self.robot['x']+cDepl,self.robot['y']+lDepl)]=='O' :
+                print("Deplacement impossible car le robot n'est pas un passe-muraille !")
             else :
-                elementDeDecor='.'
+                # teste si on se trouve dans l ecadrement d une porte
+                # si c est le cas il faut remettre un . apres le depart du robot
+                if not self.surPorte :
+                    elementDeDecor=' '
+                else :
+                    elementDeDecor='.'
 
-            self.grille[(self.robot['x'],self.robot['y'])]=elementDeDecor
+                self.grille[(self.robot['x'],self.robot['y'])]=elementDeDecor
             
-            # teste si la destination est une porte pour s en souvenir
-            if self.grille[(self.robot['x']+cDepl,self.robot['y']+lDepl)]=='.' :
-                self.surPorte=True
-            else :
-                self.surPorte=False
+                # teste si la destination est une porte pour s en souvenir
+                if self.grille[(self.robot['x']+cDepl,self.robot['y']+lDepl)]=='.' :
+                    self.surPorte=True
+                else :
+                    self.surPorte=False
 
-            # et finalement teste si arrive sur sorti donc si gagne
-            if self.grille[(self.robot['x']+cDepl,self.robot['y']+lDepl)]=='U' :
-                return True
+                # et finalement teste si arrive sur sortie donc si gagne
+                if self.grille[(self.robot['x']+cDepl,self.robot['y']+lDepl)]=='U' :
+                    return "Gagne"
             
-            # si non gagne on deplace le robot
-            self.robot['x']+=cDepl
-            self.robot['y']+=lDepl
-            self.grille[(self.robot['x'],self.robot['y'])]='X'
-        return False   
+                # si non gagne on deplace le robot
+                self.robot['x']+=cDepl
+                self.robot['y']+=lDepl
+                self.grille[(self.robot['x'],self.robot['y'])]='X'
+        return "EnCours"   

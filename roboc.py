@@ -1,9 +1,7 @@
 # -*-coding:Utf-8 -*
 
 """Ce fichier contient le code principal du jeu.
-
 Exécutez-le avec Python pour lancer le jeu.
-
 """
 
 import os
@@ -20,24 +18,28 @@ for nom_fichier in os.listdir("cartes"):
             contenu = fichier.read()
             # Création d'une carte
             carte=Carte(nom_carte,contenu)
-        
         cartes.append(carte)
 
 print("sur la carte facile : 1")
 cacarte=cartes[1]
-fini=False
+etat="EnCours";
 
-while (not fini):
+print(cacarte)
+
+
+while (etat=="EnCours"):
     print("Donnez la direction :")
     direction=input()
-    fini=cacarte.labyrinthe.interpreteurCommande(direction)
+    etat=cacarte.labyrinthe.interpreteurCommande(direction)
     print(cacarte)
 
-    if fini :
+    if etat=="Gagne":
         print("Tu est sorti vivant de ce labyrinthe... Bravo !")
-    else :
+    elif etat=="EnCours":
         print("T'est pas encore sorti, continue...")
-
+    else:
+        # cas ou on veut quitter le jeu en sauvegardant
+        print("Sauvegarde... et fin de partie !")
 
 
 
