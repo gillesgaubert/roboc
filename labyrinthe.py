@@ -64,30 +64,33 @@ class Labyrinthe:
 
     
     def interpreteurCommande(self,commande):
-        nombreDeplacement=1
+        #nombreDeplacement=1
         resultat="EnCours"
         if len(commande)==0:
             print("Il faut rentrer une commande !")
+            resultat="Erreur"
         elif (commande.lower()=='q') :
             # ici sauvegearde et fin du programme
             resultat="Sauvegarde"
-        else :
-            if (len(commande)>1) :
+        else : 
                 # ici une mini-gestion des erreurs :
                 # commande doit etre au format "o3" pour 3* ouest
                 if ((len(commande)==2) and (commande[1] in '123456789')) :
                     direction=commande[0]
                     nombreDeplacement=int(commande[1])
+                    # finalement on peut deplacer le robot
+
+                    resultat=self.deplacementRobot(direction,nombreDeplacement)
+                    # resultat qui est renvoye peut etre
+                    # Gagne, EnCours ou Sauvegarde
+                elif (len(commande)==1):
+                    # meme chose quand commande au format "n"
+                    direction=commande[0]
+                    nombreDeplacement=1
+                    resultat=self.deplacementRobot(direction,nombreDeplacement)
                 else :
                     print("Je ne comprends pas cette commande !")
-            else :
-                direction=commande
-
-            # finalement on peut deplacer le robot
-
-            resultat=self.deplacementRobot(direction,nombreDeplacement)
-            # resultat qui est renvoye peut etre
-            # Gagne, EnCours ou Sauvegarde
+                    resultat="Erreur"
         return resultat
 
 
@@ -112,7 +115,7 @@ class Labyrinthe:
             if self.grille[(self.robot['x']+cDepl,self.robot['y']+lDepl)]=='O' :
                 print("Deplacement impossible car le robot n'est pas un passe-muraille !")
             else :
-                # teste si on se trouve dans l ecadrement d une porte
+                # teste si on se trouve dans l encadrement d une porte
                 # si c est le cas il faut remettre un . apres le depart du robot
                 if not self.surPorte :
                     elementDeDecor=' '

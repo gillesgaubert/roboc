@@ -27,7 +27,6 @@ try:
     with open('sauvegarde', 'rb') as fichSav:
         mon_depickler = pickle.Unpickler(fichSav)
         carteSauv = mon_depickler.load()
-        print("+++debug : carteSauv")
         print(carteSauv)
 except FileNotFoundError:
     print("Pas de fichier de sauvegarde de partie précédente.")
@@ -71,6 +70,9 @@ while (etat=="EnCours"):
             os.remove('sauvegarde')
     elif etat=="EnCours":
         print("T'est pas encore sorti, continue...")
+    elif etat=="Erreur":
+        print("Donne donc une commande valide pour changer !")
+        etat="EnCours"
     else:
         # cas ou on veut quitter le jeu en sauvegardant
         print("Sauvegarde... et fin de partie !")
